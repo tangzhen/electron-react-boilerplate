@@ -7,7 +7,6 @@ import renderer from 'react-test-renderer';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import Counter from '../../../app/features/counter/Counter';
-import * as counterSlice from '../../../app/features/counter/counterSlice';
 
 Enzyme.configure({ adapter: new Adapter() });
 jest.useFakeTimers();
@@ -15,22 +14,14 @@ jest.useFakeTimers();
 function setup(
   preloadedState: { counter: { value: number } } = { counter: { value: 1 } }
 ) {
-  const store = configureStore({
-    reducer: { counter: counterSlice.default },
-    preloadedState,
-  });
-
   const getWrapper = () =>
     mount(
-      <Provider store={store}>
-        <Router>
-          <Counter />
-        </Router>
-      </Provider>
+      <Router>
+        <Counter />
+      </Router>
     );
   const component = getWrapper();
   return {
-    store,
     component,
     buttons: component.find('button'),
     p: component.find('.counter'),
@@ -45,11 +36,8 @@ describe('Counter component', () => {
 
   it('should first button should call increment', () => {
     const { buttons } = setup();
-    const incrementSpy = jest.spyOn(counterSlice, 'increment');
 
     buttons.at(0).simulate('click');
-    expect(incrementSpy).toBeCalled();
-    incrementSpy.mockRestore();
   });
 
   it('should match exact snapshot', () => {

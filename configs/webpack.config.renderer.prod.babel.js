@@ -17,7 +17,7 @@ CheckNodeEnv('production');
 DeleteSourceMaps();
 
 export default merge(baseConfig, {
-  devtool: process.env.DEBUG_PROD === 'true' ? 'source-map' : 'none',
+  devtool: process.env.DEBUG_PROD === 'true' ? 'source-map' : undefined,
 
   mode: 'production',
 
@@ -186,8 +186,6 @@ export default merge(baseConfig, {
       : [
           new TerserPlugin({
             parallel: true,
-            sourceMap: true,
-            cache: true,
           }),
           new OptimizeCSSAssetsPlugin({
             cssProcessorOptions: {

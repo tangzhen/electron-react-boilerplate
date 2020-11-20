@@ -1,19 +1,18 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styles from './Counter.css';
 import routes from '../../constants/routes.json';
-import {
-  increment,
-  decrement,
-  incrementIfOdd,
-  incrementAsync,
-  selectCount,
-} from './counterSlice';
+import useCounter from './useCounter';
 
 export default function Counter() {
-  const dispatch = useDispatch();
-  const value = useSelector(selectCount);
+  const {
+    count,
+    increment,
+    decrement,
+    incrementIfOdd,
+    incrementAsync,
+  } = useCounter();
+
   return (
     <div>
       <div className={styles.backButton} data-tid="backButton">
@@ -22,14 +21,12 @@ export default function Counter() {
         </Link>
       </div>
       <div className={`counter ${styles.counter}`} data-tid="counter">
-        {value}
+        {count}
       </div>
       <div className={styles.btnGroup}>
         <button
           className={styles.btn}
-          onClick={() => {
-            dispatch(increment());
-          }}
+          onClick={increment}
           data-tclass="btn"
           type="button"
         >
@@ -37,9 +34,7 @@ export default function Counter() {
         </button>
         <button
           className={styles.btn}
-          onClick={() => {
-            dispatch(decrement());
-          }}
+          onClick={decrement}
           data-tclass="btn"
           type="button"
         >
@@ -47,9 +42,7 @@ export default function Counter() {
         </button>
         <button
           className={styles.btn}
-          onClick={() => {
-            dispatch(incrementIfOdd());
-          }}
+          onClick={() => incrementIfOdd()}
           data-tclass="btn"
           type="button"
         >
@@ -57,9 +50,7 @@ export default function Counter() {
         </button>
         <button
           className={styles.btn}
-          onClick={() => {
-            dispatch(incrementAsync());
-          }}
+          onClick={() => incrementAsync()}
           data-tclass="btn"
           type="button"
         >
